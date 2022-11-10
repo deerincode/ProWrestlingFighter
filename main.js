@@ -53,20 +53,43 @@ class Wrestler {
     }
 
     workTheCrowd(){
-        // TODO
+            // TODO
+            let crowdWorkResult = Math.random()
+            this.isTheCrowdPleased(crowdWorkResult)
+        }
+
+    isTheCrowdPleased(crowdResult){
+        if(crowdResult < .15){
+           console.log(`The crowd boos at the weak display of showmanship. ${this.name} feels winded by the blow to their self esteem...`)
+           this.stamina -= 5
+        }else if(crowdResult < .90 ){
+            console.log(`The crowd goes wild!! ${this.name} looks amped up!!`)
+            this.powerMultiplier = 1.5
+        }else if(crowdResult >= .9){
+            console.log(`The crowd is out of control for ${this.name}!! ${this.name} looks reinvigorated and ready for a big move!!`)
+            this.health += 10
+            this.powerMultiplier = 2
+        }else{
+            console.log("MAH GAWD, SOMETHINGS GONE WRONG")
+        }
+            
     }
+
+    finisher(){
+            // TODO
+        }
 
     defend(){
         // TODO
+        this.currentMove = "defend"
     }
 
     reversal(){
         // TODO
+        this.currentMove = "reversal"
     }
 
-    finisher(){
-        // TODO
-    }
+    
 
     setCurrentMove(move){
         this.currentMove = move
@@ -96,3 +119,4 @@ class Game{
     }
 }
 
+// let wrassler = new Wrestler()
