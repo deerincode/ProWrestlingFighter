@@ -12,9 +12,10 @@ class Wrestler {
         this.currentMove = ''
     }
 
-    // Does 10 base damage * power multiplier
+    // Does 10 base damage * power multiplier. Damage will be reduced against 'defend' action
+    // Chance to daze opponent
     strike(opponent){
-        // TODO
+        // TODO: functionality to deal with special moves
         this.setCurrentMove('strike')
         let dazeChance = .15
         if(opponent.currentMove === 'defend'){
@@ -28,7 +29,11 @@ class Wrestler {
         }
     }
 
+    // Does 20 base damage * power multiplier; can be countered with 'reversal', dealing damage to user
+    // Chance to knock opponent prone if attack is succesful
     slam(opponent){
+        //TODO: add functionality to deal with special moves
+       
         this.setCurrentMove('slam')
         let proneChance = .5
 
