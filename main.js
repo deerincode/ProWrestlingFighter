@@ -16,7 +16,8 @@ class Wrestler {
     // Chance to daze opponent
     strike(opponent){
         // TODO: functionality to deal with special moves
-        this.setCurrentMove('strike')
+        
+        // this.setCurrentMove('strike')
         let dazeChance = .15
         if(opponent.currentMove === 'defend'){
             opponent.health = opponent.health - (10 * this.powerMultiplier)/2
@@ -34,7 +35,7 @@ class Wrestler {
     slam(opponent){
         //TODO: add functionality to deal with special moves
        
-        this.setCurrentMove('slam')
+        // this.setCurrentMove('slam')
         let proneChance = .5
 
         if(opponent.currentMove === 'reversal'){
@@ -81,16 +82,23 @@ class Wrestler {
 
     defend(){
         // TODO
-        this.currentMove = "defend"
+
+        // this.currentMove = "defend"
     }
 
     reversal(){
         // TODO
-        this.currentMove = "reversal"
+        // this.currentMove = "reversal"
     }
 
-    
+    recover(){
+        if(this.isDazed == true){
+            console.log(`${this.name} has come to their senses.`)
+        }
+        
+    }
 
+    // TODO: Maybe implement this into the Game class instead; avoid timing issues when doing attack/defend comparisons
     setCurrentMove(move){
         this.currentMove = move
     }
@@ -117,6 +125,8 @@ class Game{
         this.currentOpponent = ''
         this.opponents = []
     }
+    // Create a method that will select the cpu move and player move one after the other
+
 }
 
 // let wrassler = new Wrestler()
