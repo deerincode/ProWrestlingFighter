@@ -1,3 +1,59 @@
+//Created by Vogue Boney 2022
+
+//Globals
+let player
+let opponent
+let opponentMove
+
+let numOfRounds = 0
+
+// Buttons and resettable elements/variables
+let combatLog = document.getElementById('combatLog')
+let startButton = document.getElementById('startButton')
+let restartButton = document.getElementById('restartButton')
+
+let strikeButton = document.getElementById('strike')
+let slamButton = document.getElementById('slam')
+let pinButton = document.getElementById('pin')
+let blockButton = document.getElementById('block')
+let reversalButton = document.getElementById('reversal')
+let crowdworkButton = document.getElementById('crowdwork')
+let recoverButton = document.getElementById('recover')
+
+let playerHealthDisplay = document.getElementById("playerHealth")
+let playerStaminaDisplay = document.getElementById("playerStamina")
+let playerHypeDisplay = document.getElementById("playerHype")
+let playerStatusDisplay = document.getElementById("playerStatus")
+let cpuHealthDisplay = document.getElementById("cpuHealth")
+let cpuStaminaDisplay = document.getElementById("cpuStamina")
+let cpuHypeDisplay = document.getElementById("cpuHype")
+let cpuStatusDisplay = document.getElementById("cpuStatus")
+
+
+
+function resetButtons(){
+    startButton.disabled = false
+    restartButton.disabled = false
+
+    strikeButton.disabled = true
+    pinButton.disabled = true
+    slamButton.disabled = true
+    blockButton.disabled = true
+    reversalButton.disabled = true
+    crowdworkButton.disabled = true
+    recoverButton.disabled = true
+}
+
+function startGame(){
+    startButton.disabled = true
+    strikeButton.disabled = false
+    pinButton.disabled = false
+    slamButton.disabled = false
+}
+
+function restartGame(){
+    resetButtons()
+}
 
 class Wrestler {
     constructor(){
@@ -142,6 +198,7 @@ class Wrestler {
 class PlayerWrestler extends Wrestler {
     constructor(){
         super()
+        this.name = "Wireframe"
         this.hypeLevel = 1
         this.stamina = 25 * this.hypeLevel
 
@@ -182,11 +239,21 @@ class Game{
 
 }
 
-let log = document.getElementById('combatLog')
-let results = "This is a test!!!!" + "<br>"
-log.innerHTML += results
-log.innerHTML += "New move" + "<br>"
-log.innerHTML += "Player is bringing the SMACKDOWN brother <br>"
-log.innerHTML += "OPPONENT is down for the count"
-log.innerHTML = ''
-// let wrassler = new Wrestler()
+window.onload = resetButtons()
+
+
+// let results = "This is a test!!!!" + "<br>"
+// log.innerHTML += results
+// log.innerHTML += "New move" + "<br>"
+// log.innerHTML += "Player is bringing the SMACKDOWN brother <br>"
+// log.innerHTML += "OPPONENT is down for the count"
+
+// // let wrassler = new Wrestler()
+
+// function attack(id){
+//     if(id == 'strike'){
+//         log.innerHTML = "Player strikes out at the The Heel!!"
+//     }else if(id === 'slam'){
+//         log.innerHTML = "Player lunges from the ropes to get the drop on The Heel!!!"
+//     }
+// }

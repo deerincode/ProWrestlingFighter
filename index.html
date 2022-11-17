@@ -13,21 +13,21 @@
     <div id="mainBodyContainer">
         <h2>Pro Wrestling Fighter</h2>
         <nav>
-            <button id="startButton" onclick="startGame(id)">Start Game</button>
-            <button id="restartButton" onclick="restartGame(id)">Restart</button>
+            <button id="startButton" onclick="startGame()">Start Game</button>
+            <button id="restartButton" onclick="restartGame()">Restart</button>
         </nav>
         <div class="fightersArea">
             <div class="playerMoves">
                 <div class="attackMoves">
-                    <button id="strike">Strike</button>
-                    <button id="slam">Slam</button>
-                    <button id="pin">Pin</button>
+                    <button id="strike" onclick="attack(id)">Strike</button>
+                    <button id="slam" onclick="attack(id)">Slam</button>
+                    <button id="pin" onclick="attack(id)">Pin</button>
                 </div>
                 <div class="defenseMoves">
-                    <button>Block</button>
-                    <button>Reversal</button>
-                    <button>Crowdwork</button>
-                    <button>Recovery</button>
+                    <button id="block" onclick="defend(id)">Block</button>
+                    <button id="reversal" onclick="defend(id)">Reversal</button>
+                    <button id="crowdwork" onclick="defend(id)">Crowdwork</button>
+                    <button id="recover" onclick="recover(id)">Recover</button>
                 </div>
                 
                 
@@ -37,15 +37,11 @@
                 <div id="playerImage"></div>
                 <div class="statBox">
 
-                    <div>Health: 100 </div>
-                    <div>Stamina: 25</div>
-                    <div>Hype Level: 1</div>
-                    <div>Status: None</div>
-                    <br>
-                     <br>
+                    <div id="playerHealth">Health: 100 </div>
+                    <div id="playerStamina">Stamina: 25</div>
+                    <div id="playerHype">Hype Level: 1</div>
+                    <div id="playerStatus">Status: None</div>
                     
-                    
-
                 </div>
 
 
