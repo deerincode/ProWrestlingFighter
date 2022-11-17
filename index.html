@@ -5,8 +5,69 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href='https://fonts.googleapis.com/css?family=Blaka' rel='stylesheet'>
+    <script src="./main.js" defer></script>
 </head>
 <body>
+    <div id="mainBodyContainer">
+        <h2>Pro Wrestling Fighter</h2>
+        <nav>
+            <button id="startButton" onclick="startGame(id)">Start Game</button>
+            <button id="restartButton" onclick="restartGame(id)">Restart</button>
+        </nav>
+        <div class="fightersArea">
+            <div class="playerMoves">
+                <div class="attackMoves">
+                    <button id="strike">Strike</button>
+                    <button id="slam">Slam</button>
+                    <button id="pin">Pin</button>
+                </div>
+                <div class="defenseMoves">
+                    <button>Block</button>
+                    <button>Reversal</button>
+                    <button>Crowdwork</button>
+                    <button>Recovery</button>
+                </div>
+                
+                
+            </div>
+            <div id="playerCharacterWindow">
+                <div class="nameBox">Player</div>
+                <div id="playerImage"></div>
+                <div class="statBox">
+
+                    <div>Health: 100 </div>
+                    <div>Stamina: 25</div>
+                    <div>Hype Level: 1</div>
+                    <div>Status: None</div>
+                    <br>
+                     <br>
+                    
+                    
+
+                </div>
+
+
+            </div>
+
+            <div id="cpuCharacterWindow">
+                <div class="nameBox">Opponent</div>
+                <div id="opponentImage"></div>
+                <div class="statBox">
+
+                    <div id="cpuHealth">Health: 100 </div>
+                    <div id="cpuStamina">Stamina: 25</div>
+                    <div id="cpuHype">Hype Level: 1</div>
+                    <div id="cpuStatus">Status: None</div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="combatLog">HEEEELP</div>
+
+    </div>
     
 </body>
 </html>

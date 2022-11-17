@@ -8,6 +8,7 @@ class Wrestler {
         // this.conditions = []
         this.isDazed= false
         this.isProne = false
+        this.isPinned = false
         this.canBeFinished = false
         this.currentMove = ''
     }
@@ -49,9 +50,43 @@ class Wrestler {
         }
     }
 
-    pin(){
+    pin(opponent){
         // TODO
+        let successChance = this.findSuccessChance(opponent)
+
+        if((Math.random() <= successChance)){
+            opponent.isPinned = true
+        }
+
     }
+
+    findSuccessChance(opponent){
+        let returnResult = 0
+
+        if((opponent.health < opponent.health * .15) && (opponent.stamina <= 0)){
+            returnResult = .95
+            return returnResult
+        }else if(opponent.health <= opponent.health * .15 ){
+            returnResult = .85
+        }else if((opponent.health > opponent.health * .15) && (opponent.health *.3)){
+            returnResult = .7
+        }else if((opponent.health > opponent.health * .3) && (opponent.health <= opponent.health * .55)){
+            returnResult = .5
+        }else if((opponent.health > opponent.health * .55) && (opponent.health <= opponent.health * .75)){
+            returnResult = .3
+        }else if((opponent.health > opponent.health * .75) && (opponent.health <= opponent.health * .85)){
+            returnResult = .15
+        }else if (opponent.health > opponent.health * .85){
+            returnResult = .05
+        }
+
+        if(opponent.isProne == false){
+            returnResult /= .5
+        }
+
+        return returnResult
+    }
+    
 
     workTheCrowd(){
             // TODO
@@ -116,6 +151,7 @@ class PlayerWrestler extends Wrestler {
 class OpponentWrestler extends Wrestler{
     constructor(){
         super()
+        this.name = 'The Heel'
     }
 }
 
@@ -125,8 +161,32 @@ class Game{
         this.currentOpponent = ''
         this.opponents = []
     }
+
+    generateOpponents(){
+        let opponent = new OpponentWrestler()
+        this.opponents.push(opponent)
+    }
+
+    startGame(){
+        //TODO
+    }
+
+    startFight(){
+        //TODO
+    }
+
+    startRound(){
+        //TODO
+    }
     // Create a method that will select the cpu move and player move one after the other
 
 }
 
+let log = document.getElementById('combatLog')
+let results = "This is a test!!!!" + "<br>"
+log.innerHTML += results
+log.innerHTML += "New move" + "<br>"
+log.innerHTML += "Player is bringing the SMACKDOWN brother <br>"
+log.innerHTML += "OPPONENT is down for the count"
+log.innerHTML = ''
 // let wrassler = new Wrestler()
