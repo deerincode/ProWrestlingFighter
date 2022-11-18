@@ -319,6 +319,32 @@ function startGame(){
     cpuNameDisplay.textContent = cpuOpponent.name
 }
 
+function disableAttackButtons(booleanValue){
+    if(booleanValue){
+        strikeButton.disabled = true
+        pinButton.disabled = true
+        slamButton.disabled = true
+    }else{
+        strikeButton.disabled = false
+        pinButton.disabled = false
+        slamButton.disabled = false
+    }
+}
+
+function disableDefenseButtons(booleanValue){
+    if(booleanValue){
+        blockButton.disabled = true
+        reversalButton.disabled = true
+        crowdworkButton.disabled = true
+        recoverButton.disabled = true
+    }else{
+        blockButton.disabled = false
+        reversalButton.disabled = false
+        crowdworkButton.disabled = false
+        recoverButton.disabled = false
+    }
+}
+
 function attack(id){
     let turnLog = ``
     clearCombatLog()
@@ -327,6 +353,8 @@ function attack(id){
     cpuOpponent.executeDefensiveMove(cpuMove)
     player.executeOffensiveMove(id, cpuOpponent, cpuMove)
     updateWrestlersStats()
+    disableAttackButtons(true)
+    disableDefenseButtons(false)
 }
 
 function clearCombatLog(){
@@ -383,20 +411,3 @@ function statusCheck(wrestler){
 
 
 window.onload = resetButtons()
-
-
-// let results = "This is a test!!!!" + "<br>"
-// log.innerHTML += results
-// log.innerHTML += "New move" + "<br>"
-// log.innerHTML += "Player is bringing the SMACKDOWN brother <br>"
-// log.innerHTML += "OPPONENT is down for the count"
-
-// // let wrassler = new Wrestler()
-
-// function attack(id){
-//     if(id == 'strike'){
-//         log.innerHTML = "Player strikes out at the The Heel!!"
-//     }else if(id === 'slam'){
-//         log.innerHTML = "Player lunges from the ropes to get the drop on The Heel!!!"
-//     }
-// }
