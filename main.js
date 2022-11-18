@@ -59,7 +59,7 @@ class Wrestler {
         this.name = "Wrestler"
         this.health = 100
         this.stamina = 25
-        // this.powerMultiplier = 1
+        // this.hypeLevel = 1
         // this.conditions = []
         this.isDazed= false
         this.isProne = false
@@ -72,50 +72,59 @@ class Wrestler {
     // Does 10 base damage * power multiplier. Damage will be reduced against 'defend' action
     // Chance to daze opponent
     strike(opponent, opponentMove){
-        // TODO: functionality to deal with special moves
-        
-        // this.setCurrentMove('strike')
         let dazeChance = .15
-        if(opponent.currentMove === 'block'){
-            opponent.health = opponent.health - (10 * this.powerMultiplier)/2
+        let returnLog = `${this.name} goes for a quick hit against ${opponent.name}\n`
+
+        if(opponentMove === 'block'){
+            returnLog += `${opponent.name} goes on the defensive, taking a glancing blow for ${(10 * this.hypeLevel)/2} damage\n`
+            opponent.health = opponent.health - (10 * this.hypeLevel)/2
         }else{
-            opponent.health = opponent.health - (10 * this.powerMultiplier)
+            opponent.health = opponent.health - (10 * this.hypeLevel)
         }
         
-        if(Math.random() <= dazeChance){
+        if((Math.random() <= dazeChance) && (opponent.isDazed == false)){
+            returnLog += `${opponent.name} looks disoreiented from that decisive hit!\n`
             opponent.isDazed = true
         }
+
+        return returnLog
     }
 
     // Does 20 base damage * power multiplier; can be countered with 'reversal', dealing damage to user
     // Chance to knock opponent prone if attack is succesful
     slam(opponent, opponentMove){
-        //TODO: add functionality to deal with special moves
-       
-        // this.setCurrentMove('slam')
         let proneChance = .5
+        let returnLog = `It looks like ${this.name} is going charging at ${opponent.name} with full force!!!\n`
 
         if(opponentMove === 'reversal'){
+            returnLog += `My god!!! ${opponent.name} completely reverses the attack and throws ${this.name} to the ground for ${this.health - (20 * 1.5)} damage\n `
             this.health = this.health - (20 * 1.5)
         }else{
-            opponent.health = opponent.health - (20 * this.powerMultiplier)
+            returnLog += `${this.name} slams directly into ${opponent.name} dealing a WHOPPING ${(20 * this.hypeLevel)} damage!!\n`
+            opponent.health = opponent.health - (20 * this.hypeLevel)
 
-            if(Math.random() <= proneChance){
+            if((Math.random() <= proneChance) && (opponent.isProne == false)){
+                returnLog += `Looks like ${opponent.name} has been knocked completely to the ground, and they can't get up!!!\n`
                 opponent.isProne = true
             }
+
+            return returnLog
         }
 
         
     }
 
     pin(opponent){
-        // TODO
+        this.stamina -= 3
+        let returnLog = `${this.name} is going in for the pin!!! Could this be it for ${opponent.name}?\n`
         let successChance = this.findSuccessChance(opponent)
 
         if((Math.random() <= successChance)){
+            returnLog += `3...2...1...0! THAT'S IT!!! WE HAVE A WINNER!!!\n`
             opponent.isPinned = true
         }
 
+        return returnLog
     }
 
     findSuccessChance(opponent){
@@ -147,63 +156,66 @@ class Wrestler {
     
 
     workTheCrowd(){
-            // TODO
+            let returnResult = `What's this? ${this.name} is taking a moment to work the crowd up!!\n`
             let crowdWorkResult = Math.random()
-            this.isTheCrowdPleased(crowdWorkResult)
+            returnResult += this.isTheCrowdPleased(crowdWorkResult)
+
+            return returnResult
         }
 
     isTheCrowdPleased(crowdResult){
         if(crowdResult < .15){
-           console.log(`The crowd boos at the weak display of showmanship. ${this.name} feels winded by the blow to their self esteem...`)
            this.stamina -= 5
+           return `The crowd boos at the weak display of showmanship. ${this.name} feels winded by the blow to their self esteem, losing a bit of stamina.\n`
         }else if(crowdResult < .90 ){
-            console.log(`The crowd goes wild!! ${this.name} looks amped up!!`)
-            this.powerMultiplier = 1.5
+            this.hypeLevel = 1.5
+            return `The crowd goes wild!! ${this.name} looks amped up!!\n`
         }else if(crowdResult >= .9){
-            console.log(`The crowd is out of control for ${this.name}!! ${this.name} looks reinvigorated and ready for a big move!!`)
             this.health += 10
-            this.powerMultiplier = 2
+            this.hypeLevel = 2
+            return `The crowd is out of control for ${this.name}!! ${this.name} looks reinvigorated and ready for a big move!!\n`
         }else{
             console.log("MAH GAWD, SOMETHINGS GONE WRONG")
         }
             
     }
 
-    finisher(){
-            // TODO
-        }
+    // Functionality to be added in the future!!
+    // finisher(){}
 
     defend(){
-        // TODO
-
-        // this.currentMove = "defend"
+        this.stamina -= 1
+        let returnLog = `${this.name} takes on a defensive stance.\n`
+        return returnLog
     }
 
     reversal(){
-        // TODO
-        // this.currentMove = "reversal"
+        let returnLog = `${this.name} looks like they're preparing to turn the tables on their opponent..\n`
+        return returnLog
     }
 
     recover(){
+        let returnLog = `${this.name} takes a moment to recover.\n`
+        this.stamina += 2
+
         if(this.isDazed == true){
-            console.log(`${this.name} has come to their senses.`)
+            this.isDazed == false
+            returnLog += `${this.name} has come to their senses and is no longer dazed.\n`
         }
-        
+        if(this.isProne == true){
+            this.isProne == false
+            returnLog += `${this.name} jumps back on their feet.\n`
+        }
+
+        return returnLog
     }
 
-    // TODO: Maybe implement this into the Game class instead; avoid timing issues when doing attack/defend comparisons
-    setCurrentMove(move){
-        this.currentMove = move
-    }
 }
 
 class PlayerWrestler extends Wrestler {
     constructor(){
         super()
         this.name = "Wireframe"
-        // this.hypeLevel = 1
-        // this.stamina = 25 * this.hypeLevel
-
     }
 }
 
@@ -256,6 +268,7 @@ function startGame(){
 }
 
 function attack(id){
+    let attackLog = ``
     clearCombatLog()
     incrementRound()
     
@@ -268,6 +281,10 @@ function clearCombatLog(){
 
 function incrementRound(){
     numOfRounds += 1
+}
+
+function selectCpuDefense(){
+    
 }
 
 function updateWrestlersStats(){
