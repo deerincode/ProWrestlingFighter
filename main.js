@@ -69,7 +69,7 @@ class Wrestler {
         this.hypeLevel = 1
     }
 
-    // Does 10 base damage * power multiplier. Damage will be reduced against 'defend' action
+    // Does 10 base damage * power multiplier. Damage will be reduced against 'block' action
     // Chance to daze opponent
     strike(opponent, opponentMove){
         let dazeChance = .15
@@ -183,7 +183,7 @@ class Wrestler {
     // Functionality to be added in the future!!
     // finisher(){}
 
-    defend(){
+    block(){
         this.stamina -= 1
         let returnLog = `${this.name} takes on a defensive stance.\n`
         return returnLog
@@ -208,6 +208,25 @@ class Wrestler {
         }
 
         return returnLog
+    }
+
+    executeDefensiveMove(defensiveMove){
+        switch(defensiveMove) {
+            case 'block':
+                this.block()
+                break;
+            case 'reversal':
+                this.reversal()
+                break;
+            case 'recover':
+                this.recover()
+                break;
+            case 'workTheCrowd':
+                this.workTheCrowd()
+                break;
+            default:
+                //Maybe use default for when player is dazed and unable to act??
+        }
     }
 
 }
@@ -268,10 +287,12 @@ function startGame(){
 }
 
 function attack(id){
-    let attackLog = ``
+    let turnLog = ``
     clearCombatLog()
     incrementRound()
-    
+    cpuMove = selectCpuDefense()
+    cpuOpponent.executeDefensiveMove(cpuMove)
+
     updateWrestlersStats()
 }
 
@@ -284,7 +305,15 @@ function incrementRound(){
 }
 
 function selectCpuDefense(){
-    
+    if(cpuOpponent.isDazed && cpuOpponent.isProne){
+        return 'recover'
+    }else if(Math.random() <= .18){
+        return 'workTheCrowd'
+    }else if(numOfRounds % 3 == 0){
+        return 'reversal'
+    }else{
+        return 'strike'
+    }
 }
 
 function updateWrestlersStats(){
