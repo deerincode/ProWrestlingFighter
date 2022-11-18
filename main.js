@@ -210,6 +210,22 @@ class Wrestler {
         return returnLog
     }
 
+    executeOffensiveMove(offensiveMove, opponent, opponentMove){
+        switch(offensiveMove) {
+            case 'strike':
+                this.strike(opponent, opponentMove)
+                break;
+            case 'slam':
+                this.slam(opponent, opponentMove)
+                break;
+            case 'pin':
+                this.pin(opponent)
+                break;
+            default:
+                //Maybe use default for when player is dazed and unable to act??
+        }
+    }
+
     executeDefensiveMove(defensiveMove){
         switch(defensiveMove) {
             case 'block':
@@ -292,7 +308,7 @@ function attack(id){
     incrementRound()
     cpuMove = selectCpuDefense()
     cpuOpponent.executeDefensiveMove(cpuMove)
-
+    player.executeOffensiveMove(id)
     updateWrestlersStats()
 }
 
