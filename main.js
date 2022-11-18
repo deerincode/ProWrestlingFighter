@@ -113,7 +113,7 @@ class Wrestler {
     // Chance to knock opponent prone if attack is succesful
     slam(opponent, opponentMove){
         let proneChance = .5
-        let returnLog = `It looks like ${this.name} is going charging at ${opponent.name} with full force!!!\n`
+        let returnLog = `It looks like ${this.name} is charging at ${opponent.name} with full force!!!\n`
 
         if(opponentMove === 'reversal'){
             returnLog += `My god!!! ${opponent.name} completely reverses the attack and throws ${this.name} to the ground for ${this.health - (20 * 1.5)} damage\n `
@@ -129,7 +129,7 @@ class Wrestler {
 
             
         }
-        
+
         return returnLog
         
     }
@@ -272,7 +272,7 @@ class Wrestler {
 class PlayerWrestler extends Wrestler {
     constructor(){
         super()
-        this.name = "Wireframe"
+        this.name = "The Babyface"
     }
 }
 
@@ -282,33 +282,6 @@ class OpponentWrestler extends Wrestler{
         this.name = 'The Heel'
     }
 }
-
-// class Game{
-//     constructor(){
-//         this.player = new PlayerWrestler()
-//         this.currentOpponent = ''
-//         this.opponents = []
-//     }
-
-//     generateOpponents(){
-//         let opponent = new OpponentWrestler()
-//         this.opponents.push(opponent)
-//     }
-
-//     startGame(){
-//         //TODO
-//     }
-
-//     startFight(){
-//         //TODO
-//     }
-
-//     startRound(){
-//         //TODO
-//     }
-//     // Create a method that will select the cpu move and player move one after the other
-
-// }
 
 
 function startGame(){
@@ -359,8 +332,17 @@ function attack(id){
     player.executeOffensiveMove(id, cpuOpponent, cpuMove)
     resetHypeLevel(player)
     updateWrestlersStats()
-    disableAttackButtons(true)
-    disableDefenseButtons(false)
+    if(checkIfPlayerWins()){
+        combatLog.textContent += `Congratulations!! You lead ${player.name} to victory! Click the restart button to start a new game.`
+        resetButtons()
+    }else if(checkIfCpuWins()){
+        combatLog.textContent += `You've been defeated by ${cpuOpponent.name}...but don't give up! Click the restart button to try again.`
+        resetButtons()
+    }else{
+        disableAttackButtons(true)
+        disableDefenseButtons(false)
+    }
+    
 }
 
 function defend(id){
@@ -373,6 +355,13 @@ function defend(id){
     cpuOpponent.executeOffensiveMove(cpuMove, player, playerMove)
     resetHypeLevel(cpuOpponent)
     updateWrestlersStats()
+    if(checkIfCpuWins()){
+        combatLog.textContent += `You've been defeated by ${cpuOpponent.name}...but don't give up! Click the restart button to try again.`
+        resetButtons()
+    }else if(checkIfPlayerWins()){
+        combatLog.textContent += `Congratulations!! You lead ${player.name} to victory! Click the restart button to start a new game.`
+        resetButtons()
+    }
     disableDefenseButtons(true)
     disableAttackButtons(false)
 }
@@ -423,6 +412,30 @@ function updateWrestlersStats(){
     cpuStaminaDisplay.textContent = `Stamina: ${cpuOpponent.stamina}`
     cpuHypeDisplay.textContent = `Hype Level: ${cpuOpponent.hypeLevel}`
     cpuStatusDisplay.textContent = statusCheck(cpuOpponent)
+}
+
+function checkIfPlayerWins(){
+    if((cpuOpponent.health <= 0) || cpuOpponent.isPinned){
+        return true
+    }else{
+        return false
+    }
+}
+
+function checkIfCpuWins(){
+    if((player.health <= 0) || player.isPinned){
+        return true
+    }else{
+        return false
+    }
+}
+
+function checkIfWinner(){
+    if((cpuOpponent.health <= 0) || cpuOpponent.isPinned){
+        return `Congratulations!! You lead ${player.name} to victory! Click the restart button to start a new game.`
+    }else if((player.health <= 0) || player.isPinned){
+        return `You've been defeated by ${cpuOpponent.name}...but don't give up! Click the restart button to try again.`
+    }
 }
 
 function statusCheck(wrestler){
