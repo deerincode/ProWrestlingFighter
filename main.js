@@ -357,6 +357,15 @@ function attack(id){
     disableDefenseButtons(false)
 }
 
+function defend(id){
+    let turnLog = ''
+    clearCombatLog()
+    incrementRound()
+    playerMove = id
+    player.executeDefensiveMove(playerMove)
+
+}
+
 function clearCombatLog(){
     combatLog.textContent = ''
 }
@@ -370,10 +379,26 @@ function selectCpuDefense(){
         return 'recover'
     }else if(Math.random() <= .18){
         return 'workTheCrowd'
-    }else if(numOfRounds % 3 == 0){
+    }else if(numOfRounds % 4 == 0){
         return 'reversal'
-    }else{
+    }else if(cpuOpponent.stamina >= 1){
         return 'block'
+    }else{
+        return 'recover'
+    }
+}
+
+function selectCpuOffense(){
+    if((cpuOpponent.health < cpuOpponent.maxhealth * .2) && (player.health < player.maxhealth * .15) && (cpuOpponent.stamina >= 3)){
+        return 'pin'
+    }else if(player.isProne && (player.health <= player.maxhealth * .75) && (cpuOpponent.stamina >= 3)){
+        return 'pin'
+    }else if(numOfRounds % 4 == 0){
+        return 'slam'
+    }else if(Math.random() <= .35){
+        return 'slam'
+    }else{
+        return 'strike'
     }
 }
 
