@@ -14,7 +14,7 @@ There are two possible win conditions for the game:
 - Reduce the opponent to 0 Health
 - Successfully pin the opponent
 
-As the player, you will always start the game as the attacker. You'll find your attack palette on the left side of the window. While you are the attacker, your defensive manuever options will be unavailable.
+As the player, you will always start the game as the attacker. You'll find your attack palette on the left side of the page. While you are the attacker, your defensive manuever options will be unavailable.
 
 ![A screenshot showing off the buttons for the players offensive and defensive options, with the defensive options being grayed out as unavailable](./images/attack-turn.jpg)
 
@@ -23,7 +23,7 @@ When attacking, you have access to three different moves:
 - Slam: Deal a large, fixed amount of base damage. Can be countered by 'Reversal' defensive manuever. Has a chance of knocking the opponent Prone.
 - Pin: Costs 3 stamina to use. Attempt to pin the oppenent for a three-count. If successful, the opponent is defeated instantly. Success chance is effected by the opponents current health, as well as Prone status.
 
-Once a move has been selected, both fighters' actions will be displayed and resolved in the combat log near the bottom of the window.
+Once a move has been selected, both fighters' actions will be displayed and resolved in the combat log near the bottom of the page.
 
 ![A screenshot of the combat log for the game, showing a turn playing out between the attacking player and defending computer opponent](./images/combat-log.jpg)
 
@@ -35,4 +35,23 @@ When defending, you have access to four moves:
 - Block: Costs 1 stamina. Will reduce the total damage of a Strike attack by half.
 - Reversal: Evades and counters the Slam attack, dealing damage back to the attacker.
 - Crowdwork: The wrestler attempts to work up the crowd. If successful, the fighter's hype level increases until the end of their next attack round. There is a chance for your theatrics to fall flat, however...
+- Recover: The wrestler spends the round getting their bearings. Recovers a small amount of stamina and clears Dazed and Prone status conditions.
 
+The game will continue until either the player or computer opponent have met one of the victory conditions. The player is able to restart the game at any time by clicking the 'Restart' button near the top of the page.  
+
+## Link to live site
+[Pro Wrestling Fighter](https://deerincode.github.io/ProWrestlingFighter/)
+
+## Technologies Used
+- HTML
+- CSS
+- Javascript
+
+## Resources
+https://codepen.io/Limey_88/pen/gbypXg
+
+## Shoutouts
+- Dokapon Kingdom for being a great game and inspiration for how to structure combat in my game
+- The many cafes of Southside PGH for providing the caffeine neccesary to push through this project
+- Per Scholas '22 Cycle 28
+- And YOU, the Player 
