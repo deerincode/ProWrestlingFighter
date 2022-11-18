@@ -213,32 +213,32 @@ class Wrestler {
     executeOffensiveMove(offensiveMove, opponent, opponentMove){
         switch(offensiveMove) {
             case 'strike':
-                this.strike(opponent, opponentMove)
+                combatLog.textContent += this.strike(opponent, opponentMove)
                 break;
             case 'slam':
-                this.slam(opponent, opponentMove)
+                combatLog.textContent += this.slam(opponent, opponentMove)
                 break;
             case 'pin':
-                this.pin(opponent)
+                combatLog.textContent += this.pin(opponent)
                 break;
             default:
                 //Maybe use default for when player is dazed and unable to act??
         }
     }
 
-    executeDefensiveMove(defensiveMove){
+    executeDefensiveMove(defensiveMove, moveLog){
         switch(defensiveMove) {
             case 'block':
-                this.block()
+                combatLog.textContent += this.block()
                 break;
             case 'reversal':
-                this.reversal()
+                combatLog.textContent += this.reversal()
                 break;
             case 'recover':
-                this.recover()
+                combatLog.textContent += this.recover()
                 break;
             case 'workTheCrowd':
-                this.workTheCrowd()
+                combatLog.textContent += this.workTheCrowd()
                 break;
             default:
                 //Maybe use default for when player is dazed and unable to act??
@@ -308,7 +308,7 @@ function attack(id){
     incrementRound()
     cpuMove = selectCpuDefense()
     cpuOpponent.executeDefensiveMove(cpuMove)
-    player.executeOffensiveMove(id)
+    player.executeOffensiveMove(id, cpuOpponent, cpuMove)
     updateWrestlersStats()
 }
 
@@ -352,6 +352,9 @@ function statusCheck(wrestler){
 
     if(wrestler.isDazed){
         statusReturn += 'Dazed '
+    }
+    if(wrestler.isProne){
+        statusReturn += 'Prone '
     }
     if(wrestler.isPinned){
         statusReturn += `Pinned`
