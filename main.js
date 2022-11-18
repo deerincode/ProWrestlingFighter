@@ -73,7 +73,7 @@ class Wrestler {
     // Chance to daze opponent
     strike(opponent, opponentMove){
         let dazeChance = .15
-        let returnLog = `${this.name} goes for a quick hit against ${opponent.name}\n`
+        let returnLog = `${this.name} goes for a quick hit against ${opponent.name}.\n`
 
         if(opponentMove === 'block'){
             returnLog += `${opponent.name} goes on the defensive, taking a glancing blow for ${(10 * this.hypeLevel)/2} damage\n`
@@ -328,7 +328,7 @@ function selectCpuDefense(){
     }else if(numOfRounds % 3 == 0){
         return 'reversal'
     }else{
-        return 'strike'
+        return 'block'
     }
 }
 
