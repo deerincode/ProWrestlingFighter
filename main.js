@@ -2,8 +2,9 @@
 
 //Globals
 let player
-let opponent
-let opponentMove
+let cpuOpponent
+let playerMove
+let cpuMove
 
 let numOfRounds = 0
 
@@ -20,14 +21,17 @@ let reversalButton = document.getElementById('reversal')
 let crowdworkButton = document.getElementById('crowdwork')
 let recoverButton = document.getElementById('recover')
 
+let playerNameDisplay = document.getElementById("nameBoxPlayer")
 let playerHealthDisplay = document.getElementById("playerHealth")
 let playerStaminaDisplay = document.getElementById("playerStamina")
 let playerHypeDisplay = document.getElementById("playerHype")
 let playerStatusDisplay = document.getElementById("playerStatus")
+let cpuNameDisplay = document.getElementById("nameBoxCPU")
 let cpuHealthDisplay = document.getElementById("cpuHealth")
 let cpuStaminaDisplay = document.getElementById("cpuStamina")
 let cpuHypeDisplay = document.getElementById("cpuHype")
 let cpuStatusDisplay = document.getElementById("cpuStatus")
+
 
 
 
@@ -44,12 +48,7 @@ function resetButtons(){
     recoverButton.disabled = true
 }
 
-function startGame(){
-    startButton.disabled = true
-    strikeButton.disabled = false
-    pinButton.disabled = false
-    slamButton.disabled = false
-}
+
 
 function restartGame(){
     resetButtons()
@@ -59,24 +58,25 @@ class Wrestler {
     constructor(){
         this.name = "Wrestler"
         this.health = 100
-        this.stamina = 100
-        this.powerMultiplier = 1
+        this.stamina = 25
+        // this.powerMultiplier = 1
         // this.conditions = []
         this.isDazed= false
         this.isProne = false
         this.isPinned = false
-        this.canBeFinished = false
-        this.currentMove = ''
+        // this.canBeFinished = false
+        // this.currentMove = ''
+        this.hypeLevel = 1
     }
 
     // Does 10 base damage * power multiplier. Damage will be reduced against 'defend' action
     // Chance to daze opponent
-    strike(opponent){
+    strike(opponent, opponentMove){
         // TODO: functionality to deal with special moves
         
         // this.setCurrentMove('strike')
         let dazeChance = .15
-        if(opponent.currentMove === 'defend'){
+        if(opponent.currentMove === 'block'){
             opponent.health = opponent.health - (10 * this.powerMultiplier)/2
         }else{
             opponent.health = opponent.health - (10 * this.powerMultiplier)
@@ -89,21 +89,23 @@ class Wrestler {
 
     // Does 20 base damage * power multiplier; can be countered with 'reversal', dealing damage to user
     // Chance to knock opponent prone if attack is succesful
-    slam(opponent){
+    slam(opponent, opponentMove){
         //TODO: add functionality to deal with special moves
        
         // this.setCurrentMove('slam')
         let proneChance = .5
 
-        if(opponent.currentMove === 'reversal'){
+        if(opponentMove === 'reversal'){
             this.health = this.health - (20 * 1.5)
         }else{
             opponent.health = opponent.health - (20 * this.powerMultiplier)
+
+            if(Math.random() <= proneChance){
+                opponent.isProne = true
+            }
         }
 
-        if(Math.random() <= proneChance){
-            opponent.isProne = true
-        }
+        
     }
 
     pin(opponent){
@@ -199,8 +201,8 @@ class PlayerWrestler extends Wrestler {
     constructor(){
         super()
         this.name = "Wireframe"
-        this.hypeLevel = 1
-        this.stamina = 25 * this.hypeLevel
+        // this.hypeLevel = 1
+        // this.stamina = 25 * this.hypeLevel
 
     }
 }
@@ -212,32 +214,91 @@ class OpponentWrestler extends Wrestler{
     }
 }
 
-class Game{
-    constructor(){
-        this.player = new PlayerWrestler()
-        this.currentOpponent = ''
-        this.opponents = []
-    }
+// class Game{
+//     constructor(){
+//         this.player = new PlayerWrestler()
+//         this.currentOpponent = ''
+//         this.opponents = []
+//     }
 
-    generateOpponents(){
-        let opponent = new OpponentWrestler()
-        this.opponents.push(opponent)
-    }
+//     generateOpponents(){
+//         let opponent = new OpponentWrestler()
+//         this.opponents.push(opponent)
+//     }
 
-    startGame(){
-        //TODO
-    }
+//     startGame(){
+//         //TODO
+//     }
 
-    startFight(){
-        //TODO
-    }
+//     startFight(){
+//         //TODO
+//     }
 
-    startRound(){
-        //TODO
-    }
-    // Create a method that will select the cpu move and player move one after the other
+//     startRound(){
+//         //TODO
+//     }
+//     // Create a method that will select the cpu move and player move one after the other
 
+// }
+
+
+function startGame(){
+    startButton.disabled = true
+    strikeButton.disabled = false
+    pinButton.disabled = false
+    slamButton.disabled = false
+
+    player = new PlayerWrestler()
+    cpuOpponent= new OpponentWrestler()
+
+    playerNameDisplay.textContent = player.name
+    cpuNameDisplay.textContent = cpuOpponent.name
 }
+
+function attack(id){
+    clearCombatLog()
+    incrementRound()
+    
+    updateWrestlersStats()
+}
+
+function clearCombatLog(){
+    combatLog.textContent = ''
+}
+
+function incrementRound(){
+    numOfRounds += 1
+}
+
+function updateWrestlersStats(){
+    playerHealthDisplay.textContent = `Health: ${player.health}`
+    playerStaminaDisplay.textContent = `Stamina: ${player.health}`
+    playerHypeDisplay.textContent = `Hype Level: ${player.hypeLevel}`
+    playerStatusDisplay.textContent = statusCheck(player)
+
+    cpuHealthDisplay.textContent = `Health: ${cpuOpponent.health}`
+    cpuStaminaDisplay.textContent = `Stamina: ${cpuOpponent.health}`
+    cpuHypeDisplay.textContent = `Hype Level: ${cpuOpponent.hypeLevel}`
+    cpuStatusDisplay.textContent = statusCheck(cpuOpponent)
+}
+
+function statusCheck(wrestler){
+    let statusReturn = `Status: `
+    if(wrestler.isDazed == false && wrestler.isPinned == false){
+        statusReturn += 'None'
+    }
+
+    if(wrestler.isDazed){
+        statusReturn += 'Dazed '
+    }
+    if(wrestler.isPinned){
+        statusReturn += `Pinned`
+    }
+
+    return statusReturn
+}
+
+
 
 window.onload = resetButtons()
 
