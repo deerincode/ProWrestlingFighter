@@ -57,6 +57,7 @@ function restartGame(){
 class Wrestler {
     constructor(){
         this.name = "Wrestler"
+        this.maxhealth = 100
         this.health = 100
         this.stamina = 25
         // this.hypeLevel = 1
@@ -128,27 +129,27 @@ class Wrestler {
     }
 
     findSuccessChance(opponent){
-        let returnResult = 0
+        let returnResult
 
-        if((opponent.health < opponent.health * .15) && (opponent.stamina <= 0)){
+        if((opponent.health < opponent.maxhealth * .15) && (opponent.stamina <= 0)){
             returnResult = .95
             return returnResult
-        }else if(opponent.health <= opponent.health * .15 ){
+        }else if(opponent.health <= opponent.maxhealth* .15 ){
             returnResult = .85
-        }else if((opponent.health > opponent.health * .15) && (opponent.health *.3)){
+        }else if((opponent.health > opponent.maxhealth * .15) && (opponent.health  <= opponent.maxhealth * .3)){
             returnResult = .7
-        }else if((opponent.health > opponent.health * .3) && (opponent.health <= opponent.health * .55)){
+        }else if((opponent.health > opponent.maxhealth * .3) && (opponent.health <= opponent.maxhealth * .55)){
             returnResult = .5
-        }else if((opponent.health > opponent.health * .55) && (opponent.health <= opponent.health * .75)){
+        }else if((opponent.health > opponent.maxhealth * .55) && (opponent.health <= opponent.maxhealth * .75)){
             returnResult = .3
-        }else if((opponent.health > opponent.health * .75) && (opponent.health <= opponent.health * .85)){
+        }else if((opponent.health > opponent.maxhealth * .75) && (opponent.health <= opponent.maxhealth * .85)){
             returnResult = .15
-        }else if (opponent.health > opponent.health * .85){
+        }else if (opponent.health > opponent.maxhealth * .85){
             returnResult = .05
         }
 
         if(opponent.isProne == false){
-            returnResult /= .5
+            returnResult *= .5
         }
 
         return returnResult
@@ -334,19 +335,19 @@ function selectCpuDefense(){
 
 function updateWrestlersStats(){
     playerHealthDisplay.textContent = `Health: ${player.health}`
-    playerStaminaDisplay.textContent = `Stamina: ${player.health}`
+    playerStaminaDisplay.textContent = `Stamina: ${player.stamina}`
     playerHypeDisplay.textContent = `Hype Level: ${player.hypeLevel}`
     playerStatusDisplay.textContent = statusCheck(player)
 
     cpuHealthDisplay.textContent = `Health: ${cpuOpponent.health}`
-    cpuStaminaDisplay.textContent = `Stamina: ${cpuOpponent.health}`
+    cpuStaminaDisplay.textContent = `Stamina: ${cpuOpponent.stamina}`
     cpuHypeDisplay.textContent = `Hype Level: ${cpuOpponent.hypeLevel}`
     cpuStatusDisplay.textContent = statusCheck(cpuOpponent)
 }
 
 function statusCheck(wrestler){
     let statusReturn = `Status: `
-    if(wrestler.isDazed == false && wrestler.isPinned == false){
+    if(wrestler.isDazed == false && wrestler.isPinned == false && wrestler.isProne == false){
         statusReturn += 'None'
     }
 
