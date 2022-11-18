@@ -80,14 +80,11 @@ nav{
 #playerCharacterWindow{
     display: flex;
     width: 40%;
-    /* flex-direction: column;
-    justify-content: space-around; */
     align-items: center;
 }
 
 #playerImage{
     margin-left: 10px;
-    /* border: 10px; */
     border-color: blue;
     width: 30vw;
     height: 40vh;
@@ -95,13 +92,10 @@ nav{
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    /* background-color: blueviolet; */
 }
 
 #opponentImage{
-    /* border: 1px; */
     border-color: blue;
-    /* background-color: red; */
     width: 30vw;
     height: 40vh;
     background-image: url("./images/opponent-placeholder.jpg");
@@ -113,8 +107,6 @@ nav{
 #cpuCharacterWindow{
     display: flex;
     width: 40%;
-    /* flex-direction: column;
-    justify-content: space-around; */
     align-items: center;
     flex-direction: row-reverse;
 }
