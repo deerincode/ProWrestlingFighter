@@ -48,10 +48,28 @@ function resetButtons(){
     recoverButton.disabled = true
 }
 
+function resetCharacters(){
+    player.health = 100
+    player.stamina = 25
+    player.hypeLevel = 1
+    player.isDazed = false
+    player.isProne = false
+    player.isPinned = false
+
+    cpuOpponent.health = 100
+    cpuOpponent.stamina = 25
+    cpuOpponent.hypeLevel = 1
+    cpuOpponent.isDazed = false
+    cpuOpponent.isProne = false
+    cpuOpponent.isPinned = false
+}
 
 
 function restartGame(){
     resetButtons()
+    resetCharacters()
+    updateWrestlersStats()
+    combatLog.textContent = ''
 }
 
 class Wrestler {
@@ -60,13 +78,9 @@ class Wrestler {
         this.maxhealth = 100
         this.health = 100
         this.stamina = 25
-        // this.hypeLevel = 1
-        // this.conditions = []
         this.isDazed= false
         this.isProne = false
         this.isPinned = false
-        // this.canBeFinished = false
-        // this.currentMove = ''
         this.hypeLevel = 1
     }
 
@@ -121,8 +135,10 @@ class Wrestler {
         let successChance = this.findSuccessChance(opponent)
 
         if((Math.random() <= successChance)){
-            returnLog += `3...2...1...0! THAT'S IT!!! WE HAVE A WINNER!!!\n`
+            returnLog += `1...2...3! THAT'S IT!!! WE HAVE A WINNER!!!\n`
             opponent.isPinned = true
+        }else{
+            returnLog += `1...2...OH!! ${opponent.name} manages to break out of the pin!!!`
         }
 
         return returnLog
