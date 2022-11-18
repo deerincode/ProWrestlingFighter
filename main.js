@@ -70,6 +70,9 @@ function restartGame(){
     resetCharacters()
     updateWrestlersStats()
     combatLog.textContent = ''
+    numOfRounds = 0
+    playerMove = ''
+    cpuMove = ''
 }
 
 class Wrestler {
@@ -91,10 +94,11 @@ class Wrestler {
         let returnLog = `${this.name} goes for a quick hit against ${opponent.name}.\n`
 
         if(opponentMove === 'block'){
-            returnLog += `${opponent.name} goes on the defensive, taking a glancing blow for ${(10 * this.hypeLevel)/2} damage\n`
-            opponent.health = opponent.health - (10 * this.hypeLevel)/2
+            returnLog += `${opponent.name} goes on the defensive, taking a glancing blow for ${Math.floor((10 * this.hypeLevel)/2)} damage\n`
+            opponent.health = opponent.health - Math.floor((10 * this.hypeLevel)/2)
         }else{
-            opponent.health = opponent.health - (10 * this.hypeLevel)
+            returnLog += `${opponent.name} gets smacked around for ${Math.floor((10 * this.hypeLevel))} damage\n`
+            opponent.health = opponent.health - (Math.floor((10 * this.hypeLevel)))
         }
         
         if((Math.random() <= dazeChance) && (opponent.isDazed == false)){
@@ -123,9 +127,10 @@ class Wrestler {
                 opponent.isProne = true
             }
 
-            return returnLog
+            
         }
-
+        
+        return returnLog
         
     }
 
@@ -138,7 +143,7 @@ class Wrestler {
             returnLog += `1...2...3! THAT'S IT!!! WE HAVE A WINNER!!!\n`
             opponent.isPinned = true
         }else{
-            returnLog += `1...2...OH!! ${opponent.name} manages to break out of the pin!!!`
+            returnLog += `1...2...OH!! ${opponent.name} manages to break out of the pin!!!\n`
         }
 
         return returnLog
@@ -215,12 +220,12 @@ class Wrestler {
         let returnLog = `${this.name} takes a moment to recover.\n`
         this.stamina += 2
 
-        if(this.isDazed == true){
-            this.isDazed == false
+        if(this.isDazed){
+            this.isDazed = false
             returnLog += `${this.name} has come to their senses and is no longer dazed.\n`
         }
         if(this.isProne == true){
-            this.isProne == false
+            this.isProne = false
             returnLog += `${this.name} jumps back on their feet.\n`
         }
 
@@ -254,7 +259,7 @@ class Wrestler {
             case 'recover':
                 combatLog.textContent += this.recover()
                 break;
-            case 'workTheCrowd':
+            case 'crowdwork':
                 combatLog.textContent += this.workTheCrowd()
                 break;
             default:
@@ -352,6 +357,7 @@ function attack(id){
     cpuMove = selectCpuDefense()
     cpuOpponent.executeDefensiveMove(cpuMove)
     player.executeOffensiveMove(id, cpuOpponent, cpuMove)
+    resetHypeLevel(player)
     updateWrestlersStats()
     disableAttackButtons(true)
     disableDefenseButtons(false)
@@ -363,7 +369,12 @@ function defend(id){
     incrementRound()
     playerMove = id
     player.executeDefensiveMove(playerMove)
-
+    cpuMove = selectCpuOffense()
+    cpuOpponent.executeOffensiveMove(cpuMove, player, playerMove)
+    resetHypeLevel(cpuOpponent)
+    updateWrestlersStats()
+    disableDefenseButtons(true)
+    disableAttackButtons(false)
 }
 
 function clearCombatLog(){
@@ -378,7 +389,7 @@ function selectCpuDefense(){
     if(cpuOpponent.isDazed && cpuOpponent.isProne){
         return 'recover'
     }else if(Math.random() <= .18){
-        return 'workTheCrowd'
+        return 'crowdwork'
     }else if(numOfRounds % 4 == 0){
         return 'reversal'
     }else if(cpuOpponent.stamina >= 1){
@@ -416,16 +427,18 @@ function updateWrestlersStats(){
 
 function statusCheck(wrestler){
     let statusReturn = `Status: `
-    if(wrestler.isDazed == false && wrestler.isPinned == false && wrestler.isProne == false){
+    if((wrestler.isDazed == false) && (wrestler.isPinned == false) && (wrestler.isProne == false)){
         statusReturn += 'None'
     }
 
     if(wrestler.isDazed){
         statusReturn += 'Dazed '
     }
+
     if(wrestler.isProne){
         statusReturn += 'Prone '
     }
+
     if(wrestler.isPinned){
         statusReturn += `Pinned`
     }
@@ -433,6 +446,8 @@ function statusCheck(wrestler){
     return statusReturn
 }
 
-
+function resetHypeLevel(attacker){
+    attacker.hypeLevel = 1
+}
 
 window.onload = resetButtons()
